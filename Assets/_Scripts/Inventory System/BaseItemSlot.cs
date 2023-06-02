@@ -18,21 +18,21 @@ namespace _Scripts.Inventory_System
 
         protected Color normalColor = Color.white;
         protected Color disabledColor = new Color(1, 1, 1, 0);
-        protected Item _item;
+        protected Item item;
 
         public Item Item
         {
-            get { return _item; }
+            get => item;
             set
             {
-                _item = value;
-                if (_item == null)
+                item = value;
+                if (item == null)
                 {
                     image.color = disabledColor;
                 }
                 else
                 {
-                    image.sprite = _item.icon;
+                    image.sprite = item.itemIcon;
                     image.color = normalColor;
                 }
             }
@@ -42,7 +42,7 @@ namespace _Scripts.Inventory_System
 
         public int Amount
         {
-            get { return _amount; }
+            get => _amount;
             set
             {
                 _amount = value;
@@ -51,7 +51,7 @@ namespace _Scripts.Inventory_System
 
                 if (amountText != null)
                 {
-                    amountText.enabled = _item != null && _amount > 1;
+                    amountText.enabled = item != null && _amount > 1;
                     if (amountText.enabled)
                     {
                         amountText.text = _amount.ToString();
@@ -72,7 +72,7 @@ namespace _Scripts.Inventory_System
         public virtual bool CanAddStack(Item item, int amount = 1)
         {
             if (Item == null) return false;
-            return Item != null && Item.ID == item.ID;
+            return Item != null && Item.itemID == item.itemID;
         }
 
         public virtual bool CanReceiveItem(Item item)

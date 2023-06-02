@@ -1,33 +1,7 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
-
-// namespace _Scripts.Inventory_System
-// {
-//     public class Item : ScriptableObject
-//     {
-//         public string itemName;
-//         public int itemID;
-//         public int minLevel;
-//         public int itemLevel;
-//         public Sprite itemIcon;
-//         public int width;
-//         public int height;
-//         public int itemValue;
-//       //  public AdditionalStats additionalStats;
-//
-//     }
-//
-//     // [Serializable]
-//     // public class AdditionalStats
-//     // {
-//     //     private int health;
-//     //     private int damage;
-//     //     private int attackSpeed;
-//     //     private int healthRegeneration;
-//     //     private int armor;
-//     //
-//     // }
-// }
 
 namespace _Scripts.Inventory_System
 {
@@ -42,15 +16,26 @@ namespace _Scripts.Inventory_System
         public int width;
         public int height;
         public int itemValue;
+        public AdditionalStats additionalStats;
+        public ItemType itemType;
         [SerializeField] string id;
-        [Range(1,16)]
-        public int maximumStacks = 1;
+        [Range(1, 16)] public int maximumStacks = 1;
+
+        public List<string> GetItemInfoAsList()
+        {
+            List<string> itemInfoList = new List<string>();
+
+            itemInfoList.Add(itemName + " " + itemLevel.ToString());
+            itemInfoList.Add("Level: " + minLevel.ToString());
+            itemInfoList.Add("Item Value: " + itemValue.ToString());
+
+            return itemInfoList;
+        }
+
         public string ID
         {
             get { return id; }
         }
-        public Sprite icon;
-        public int value;
 
         private void OnValidate()
         {
@@ -58,13 +43,33 @@ namespace _Scripts.Inventory_System
             id = AssetDatabase.AssetPathToGUID(path);
         }
 
-        public virtual Item GetCopy()
+        public Item GetCopy()
         {
             return this;
-        }  
-        public virtual void Destroy()
-        {
-        
         }
+
+        public void Destroy()
+        {
+        }
+    }
+
+    [Serializable]
+    public enum AdditionalStats
+    {
+        MovementSpeed,
+        AttackSpeed,
+        AttackDamage,
+        AbilityPower,
+        Armor,
+        MagicResist,
+        Health,
+        Mana,
+        HealthRegen,
+        ManaRegen,
+        CooldownReduction,
+        LifeSteal,
+        ArmorPenetration,
+        GoldPer10,
+        ExperiencePer10
     }
 }

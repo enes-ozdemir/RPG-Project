@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace _Scripts.Inventory_System
@@ -20,16 +21,17 @@ namespace _Scripts.Inventory_System
 
         private void Start()
         {
-            for (int i = 0; i < itemSlots.Length; i++)
+            foreach (var slot in itemSlots)
             {
-                itemSlots[i].OnPointerEnterEvent += OnPointerEnterEvent;
-                itemSlots[i].OnPointerExitEvent += OnPointerExitEvent;
-                itemSlots[i].OnBeginDragEvent += OnBeginDragEvent;
-                itemSlots[i].OnEndDragEvent += OnEndDragEvent;
-                itemSlots[i].OnDropEvent += OnDropEvent;
-                itemSlots[i].OnDragEvent += OnDragEvent;
-                itemSlots[i].OnShiftRightClickEvent += OnShiftRightClickEvent;
+                slot.OnPointerEnterEvent += OnPointerEnterEvent;
+                slot.OnPointerExitEvent += OnPointerExitEvent;
+                slot.OnBeginDragEvent += OnBeginDragEvent;
+                slot.OnEndDragEvent += OnEndDragEvent;
+                slot.OnDropEvent += OnDropEvent;
+                slot.OnDragEvent += OnDragEvent;
+                slot.OnShiftRightClickEvent += OnShiftRightClickEvent;
             }
+
             SetStartingItems();
         }
 
@@ -40,7 +42,7 @@ namespace _Scripts.Inventory_System
                 itemSlots = itemParent.GetComponentsInChildren<ItemSlot>();
             }
 
-            //SetStartingItems();
+            SetStartingItems();
         }
 
         private void SetStartingItems()
@@ -59,18 +61,9 @@ namespace _Scripts.Inventory_System
             }
         }
 
-
-        // public bool ContainsItem(Item item)
-        // {
-        //     for (int i = 0; i < itemSlots.Length; i++)
-        //     {
-        //         if (itemSlots[i].Item == item)
-        //         {
-        //             return true;
-        //         }
-        //     }
-        //
-        //     return false;
-        // }
+        public bool ContainsItem(Item item)
+        {
+            return itemSlots.Any(slot => slot.Item == item);
+        }
     }
 }

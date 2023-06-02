@@ -20,7 +20,11 @@ MonoBehaviour:
   width: 0
   height: 0
   itemValue: 0
+  additionalStats:
+    speed: 0
+    armor: 0
+    attackDamage: 0
+    protectionAgainstHalfHumans: 0
+  itemType: 1
   id: 482630880a9cd954e9358d7a8fa308e7
   maximumStacks: 1
-  icon: {fileID: 21300000, guid: 6a0aaf885270acc4598f234c89776840, type: 3}
-  value: 0

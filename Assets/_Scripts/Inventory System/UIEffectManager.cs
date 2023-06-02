@@ -1,53 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
-public class UIEffectManager : MonoBehaviour
-
+namespace _Scripts.Inventory_System
 {
-    [SerializeField] private RectTransform targetRectTransform;
+    public class UIEffectManager : MonoBehaviour
 
-    [SerializeField] private float endScale = 6f;
-
-    [SerializeField] private float startPositionX = 5f;
-    [SerializeField] private float endPositionX = 0f;
-
-    private Sequence _sequence;
-
-    public void FlyIn()
     {
-        targetRectTransform.DOLocalMoveX(endPositionX, 0.5f, false);
-    }
+        [SerializeField] private RectTransform targetRectTransform;
 
-    public void FlyOut()
-    {
-        targetRectTransform.DOLocalMoveX(startPositionX, 0.5f, false);
+        [SerializeField] private float endScale = 6f;
+        [SerializeField] private float startPositionX = 5f;
+        [SerializeField] private float endPositionX = 0f;
 
-    }
+        private Sequence _sequence;
 
-    private void Scale()
-    {
-        targetRectTransform.DOScale(endScale, 0.5f);
-    }
+        public void FlyIn()
+        {
+            targetRectTransform.DOLocalMoveX(endPositionX, 0.5f, false);
+        }
 
-    public void SequenceFlyIn()
-    {
-        _sequence = DOTween.Sequence().SetAutoKill(false);
+        public void FlyOut()
+        {
+            targetRectTransform.DOLocalMoveX(startPositionX, 0.5f, false);
 
-        _sequence.Append(targetRectTransform.DOLocalMoveX(endPositionX, 2F, false).SetEase(Ease.InElastic));
-        _sequence.Append(targetRectTransform.DOScale(endScale, 0.5f));
-    }
+        }
 
-    public void Rewind() => _sequence.Rewind();
+        private void Scale()
+        {
+            targetRectTransform.DOScale(endScale, 0.5f);
+        }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+        public void SequenceFlyIn()
+        {
+            _sequence = DOTween.Sequence().SetAutoKill(false);
 
-    // Update is called once per frame
-    void Update()
-    {
+            _sequence.Append(targetRectTransform.DOLocalMoveX(endPositionX, 2F, false).SetEase(Ease.InElastic));
+            _sequence.Append(targetRectTransform.DOScale(endScale, 0.5f));
+        }
+
+        public void Rewind() => _sequence.Rewind();
+
+        // Start is called before the first frame update
+        void Start()
+        {
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+        }
     }
 }

@@ -1,7 +1,6 @@
-using _Scripts.Inventory_System;
 using UnityEngine;
 
-namespace inventory
+namespace _Scripts.Inventory_System
 {
     public enum EquipmentType
     {

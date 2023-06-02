@@ -37,12 +37,13 @@ public abstract class ItemContainer : MonoBehaviour, IItemContainer
 
     public virtual Item RemoveItem(string itemID)
     {
-        for (int i = 0; i < itemSlots.Length; i++)
+        
+        foreach (var slot in itemSlots)
         {
-            Item item = itemSlots[i].Item;
+            var item = slot.Item;
             if (item != null && item.ID == itemID)
             {
-                itemSlots[i].Amount--;
+                slot.Amount--;
                 return item;
             }
         }

@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Label text="ITEM CREATOR" display-tooltip-when-elided="true" name="title" style="justify-content: center; align-items: center; flex-wrap: nowrap; background-color: rgb(55, 190, 60); -unity-font-style: bold; font-size: 20px; -unity-text-align: upper-center; color: rgb(255, 255, 255); background-image: none;" />
+    <ui:TextField picking-mode="Ignore" label="Item Name" text="filler text" binding-path="item_name" name="ItemName" />
+    <ui:SliderInt picking-mode="Ignore" label="ItemLevel" value="42" high-value="99" show-input-field="true" name="ItemLevel" binding-path="item_level" />
+</ui:UXML>

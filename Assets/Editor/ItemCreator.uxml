@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:Label text="ITEM CREATOR" display-tooltip-when-elided="true" name="title" style="justify-content: center; align-items: center; flex-wrap: nowrap; background-color: rgb(55, 190, 60); -unity-font-style: bold; font-size: 20px; -unity-text-align: upper-center; color: rgb(255, 255, 255); background-image: none; margin-bottom: 5px;" />
+    <ui:GroupBox style="flex-direction: row; overflow: visible; align-items: flex-start; justify-content: flex-start; width: auto;">
+        <ui:VisualElement name="ItemImage" style="width: 154px; height: 160px; background-image: url(&apos;project://database/Assets/Art/UI%20MMORPG%20Dark%20Templar/Map/Border.png?fileID=2800000&amp;guid=007b2be586c1aee47afdfbcebb0fac3f&amp;type=3#Border&apos;);">
+            <ui:Label text="Click here to Select Image" display-tooltip-when-elided="true" name="ImageInfoLabel" style="-unity-text-align: middle-center; align-items: stretch; justify-content: flex-start; white-space: normal; flex-wrap: nowrap; -unity-font-style: bold; opacity: 1; top: 40%; font-size: 15px; width: 152px; height: 36px;" />
+            <ui:Button text="Clear" display-tooltip-when-elided="true" name="ClearButton" style="-unity-text-align: middle-center; transform-origin: center; flex-direction: column; justify-content: flex-start; flex-wrap: nowrap; position: absolute; height: 29px; top: 130px; left: 29px; width: 88px; background-color: rgb(190, 12, 0);" />
+        </ui:VisualElement>
+        <ui:GroupBox style="height: 152px; width: 229px;">
+            <ui:TextField picking-mode="Ignore" label="Item Name" binding-path="item_name" name="ItemName" style="width: 222px;" />
+            <uie:IntegerField label="Item Level" value="42" name="ItemLevel" style="width: 223px;" />
+            <uie:EnumField label="ItemType" value="Center" name="ItemType" />
+        </ui:GroupBox>
+    </ui:GroupBox>
+    <ui:Button text="Create Item" display-tooltip-when-elided="true" name="CreateButton" include-obsolete-values="true" style="-unity-text-align: middle-center; transform-origin: center; flex-direction: column; justify-content: flex-start; flex-wrap: nowrap; position: relative; top: auto; left: auto; width: 297px; background-color: rgb(190, 12, 0); align-items: stretch; font-size: 24px; -unity-font-style: bold; -unity-text-outline-width: 0; height: 61px; bottom: auto; overflow: visible; -unity-background-scale-mode: scale-and-crop;" />
+</ui:UXML>

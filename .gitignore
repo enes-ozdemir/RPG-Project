@@ -17,7 +17,9 @@
 /[Aa]ssets/Asset
 /[Aa]ssets/Art
 /[Aa]ssets/Plugins
+/[Aa]ssets/JStudios
 /.idea
+/UserSettings
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*

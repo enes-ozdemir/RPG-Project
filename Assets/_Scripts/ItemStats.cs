@@ -1,4 +1,5 @@
 ﻿using _Scripts.Inventory_System;
+using _Scripts.Inventory_System.Base;
 using UnityEngine;
 
 namespace _Scripts

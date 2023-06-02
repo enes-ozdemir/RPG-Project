@@ -1,5 +1,6 @@
 ﻿using System;
 using _Scripts.Inventory_System;
+using _Scripts.Inventory_System.Base;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,15 +8,12 @@ namespace _Scripts.Managers
 {
     public class InventoryManager : MonoBehaviour
     {
-        private BaseItemSlot draggedSlot;
         [SerializeField] private Inventory playerInventory;
         [SerializeField] private Image draggableItem;
         [SerializeField] ItemTooltip itemTooltip;
+        private BaseItemSlot _draggedSlot;
 
-        private void OnEnable()
-        {
-            SetInventoryEvents();
-        }
+        private void OnEnable() => SetInventoryEvents();
 
         private void SetInventoryEvents()
         {
@@ -44,15 +42,9 @@ namespace _Scripts.Managers
             playerInventory.gameObject.SetActive(true);
         }
 
-        public void ToggleInventory()
-        {
-            playerInventory.gameObject.SetActive(!playerInventory.isActiveAndEnabled);
-        }
+        public void ToggleInventory() => playerInventory.gameObject.SetActive(!playerInventory.isActiveAndEnabled);
 
-        public void CloseInventory()
-        {
-            playerInventory.gameObject.SetActive(false);
-        }
+        public void CloseInventory() => playerInventory.gameObject.SetActive(false);
 
         // public void DisplayShop()
         // {
@@ -71,51 +63,62 @@ namespace _Scripts.Managers
         // }
         private void ShowTooltip(BaseItemSlot itemSlot)
         {
-            Item equippableItem = itemSlot.Item;
+            var equippableItem = itemSlot.Item;
             if (equippableItem != null)
             {
                 itemTooltip.ShowTooltip(equippableItem);
             }
         }
 
-        private void HideTooltip(BaseItemSlot itemSlot)
-        {
-            itemTooltip.HideTooltip();
-        }
+        private void HideTooltip(BaseItemSlot itemSlot) => itemTooltip.HideTooltip();
 
         private void BeginDrag(BaseItemSlot itemSlot)
         {
             if (itemSlot.Item != null)
             {
-                draggedSlot = itemSlot;
+                _draggedSlot = itemSlot;
                 draggableItem.sprite = itemSlot.Item.itemIcon;
                 draggableItem.transform.position = Input.mousePosition;
                 draggableItem.enabled = true;
+                itemSlot.LightUpTheSlot(Color.green);
             }
         }
 
         private void EndDrag(BaseItemSlot itemSlot)
         {
-            draggedSlot = null;
+            _draggedSlot = null;
             draggableItem.enabled = false;
+            itemSlot.ResetSlotColor();
         }
 
         private void Drag(BaseItemSlot itemSlot)
         {
-            if (draggableItem.enabled)
+            if (!draggableItem.enabled)
+                return;
+
+            draggableItem.transform.position = Input.mousePosition;
+
+            if (itemSlot is PlayerItemSlot playerItemSlot)
             {
-                draggableItem.transform.position = Input.mousePosition;
+                var currentItem = playerItemSlot.GetItemFromSlot();
+                Color lightColor;
+                if (playerItemSlot.CanReceiveItem(currentItem))
+                    lightColor = Color.green;
+                else
+                    lightColor = Color.red;
+                itemSlot.LightUpTheSlot(lightColor);
             }
         }
 
         private void Drop(BaseItemSlot dropItemSlot)
         {
-            if (draggedSlot == null) return;
+            if (_draggedSlot == null) return;
 
-            var isDraggedBuyable = ((ItemSlot) draggedSlot).buyableSlot;
-            var isDroppedBuyable = ((ItemSlot) dropItemSlot).buyableSlot;
+            // var isDraggedBuyable = ((PlayerItemSlot) _draggedSlot).buyableSlot;
+            // var isDroppedBuyable = ((PlayerItemSlot) dropItemSlot).buyableSlot;
 
-            if (Input.GetKey(KeyCode.LeftShift) && !isDroppedBuyable && !isDraggedBuyable)
+        //    if (Input.GetKey(KeyCode.LeftShift) && !isDroppedBuyable && !isDraggedBuyable)
+            if (Input.GetKey(KeyCode.LeftShift))
             {
                 DivideItems(dropItemSlot);
             }
@@ -180,11 +183,11 @@ namespace _Scripts.Managers
 
         private void SwapItems(BaseItemSlot dropItemSlot)
         {
-            Item draggedItem = draggedSlot.Item;
-            int draggedItemAmount = draggedSlot.Amount;
+            var draggedItem = _draggedSlot.Item;
+            int draggedItemAmount = _draggedSlot.Amount;
 
-            draggedSlot.Item = dropItemSlot.Item;
-            draggedSlot.Amount = dropItemSlot.Amount;
+            _draggedSlot.Item = dropItemSlot.Item;
+            _draggedSlot.Amount = dropItemSlot.Amount;
 
             dropItemSlot.Item = draggedItem;
             dropItemSlot.Amount = draggedItemAmount;
@@ -193,9 +196,9 @@ namespace _Scripts.Managers
         private void DivideItems(BaseItemSlot dropItemSlot)
         {
             //if (inventory.IsFull()) return;
-            if (draggedSlot.Amount == 1) return;
-            Item draggedItem = draggedSlot.Item;
-            if (dropItemSlot.Item != null && draggedSlot.Item != dropItemSlot.Item)
+            if (_draggedSlot.Amount == 1) return;
+            Item draggedItem = _draggedSlot.Item;
+            if (dropItemSlot.Item != null && _draggedSlot.Item != dropItemSlot.Item)
             {
                 Debug.Log("Dividing Items");
                 return;
@@ -205,22 +208,22 @@ namespace _Scripts.Managers
 
 
             //Handle if item can be directly divided to 2
-            if (draggedSlot.Amount % 2 == 0)
+            if (_draggedSlot.Amount % 2 == 0)
             {
-                draggedItemAmount = draggedSlot.Amount / 2;
-                draggedSlot.Amount = draggedItemAmount;
+                draggedItemAmount = _draggedSlot.Amount / 2;
+                _draggedSlot.Amount = draggedItemAmount;
             }
             else
             {
-                draggedItemAmount = (draggedSlot.Amount - 1) / 2;
-                draggedSlot.Amount = draggedItemAmount;
+                draggedItemAmount = (_draggedSlot.Amount - 1) / 2;
+                _draggedSlot.Amount = draggedItemAmount;
                 dropItemSlot.Amount++;
             }
 
-            draggedSlot.Item = draggedItem;
+            _draggedSlot.Item = draggedItem;
             dropItemSlot.Item = draggedItem;
 
-            if (draggedSlot.Item == dropItemSlot.Item)
+            if (_draggedSlot.Item == dropItemSlot.Item)
             {
                 draggedItemAmount += dropItemSlot.Amount;
                 if (draggedItemAmount <= dropItemSlot.Item.maximumStacks)
@@ -229,9 +232,9 @@ namespace _Scripts.Managers
                 }
                 else
                 {
-                    int tempAmount = draggedSlot.Amount;
-                    draggedSlot.Amount =
-                        (draggedSlot.Amount * 2 - (dropItemSlot.Item.maximumStacks - dropItemSlot.Amount));
+                    int tempAmount = _draggedSlot.Amount;
+                    _draggedSlot.Amount =
+                        (_draggedSlot.Amount * 2 - (dropItemSlot.Item.maximumStacks - dropItemSlot.Amount));
                     dropItemSlot.Amount = dropItemSlot.Item.maximumStacks;
                 }
             }
@@ -241,10 +244,10 @@ namespace _Scripts.Managers
         private void AddStacks(BaseItemSlot dropItemSlot)
         {
             int numAddableStacks = dropItemSlot.Item.maximumStacks - dropItemSlot.Amount;
-            int stacksToAdd = Mathf.Min(numAddableStacks, draggedSlot.Amount);
+            int stacksToAdd = Mathf.Min(numAddableStacks, _draggedSlot.Amount);
 
             dropItemSlot.Amount += stacksToAdd;
-            draggedSlot.Amount -= stacksToAdd;
+            _draggedSlot.Amount -= stacksToAdd;
         }
 
         public void RemoveStack(BaseItemSlot currentItemSlot)

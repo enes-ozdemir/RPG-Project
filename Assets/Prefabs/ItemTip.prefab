@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 7757456864479229480}
   - component: {fileID: 7757456864479229481}
   - component: {fileID: 7757456864479229495}
+  - component: {fileID: 5481625390749319221}
   m_Layer: 0
-  m_Name: Item_Content_TMP
+  m_Name: ItemTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,3 +157,17 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &5481625390749319221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7757456864479229483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 526b0889c6a643ffac9c4b3207ca2bba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemValueText: {fileID: 7757456864479229481}
+  layoutElement: {fileID: 7757456864479229495}

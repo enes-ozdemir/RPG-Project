@@ -5,6 +5,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using _Scripts.Inventory_System;
+using _Scripts.Inventory_System.Base;
 
 
 namespace Editor

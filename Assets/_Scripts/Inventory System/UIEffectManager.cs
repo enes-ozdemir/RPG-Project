@@ -22,7 +22,6 @@ namespace _Scripts.Inventory_System
         public void FlyOut()
         {
             targetRectTransform.DOLocalMoveX(startPositionX, 0.5f, false);
-
         }
 
         private void Scale()
@@ -40,14 +39,5 @@ namespace _Scripts.Inventory_System
 
         public void Rewind() => _sequence.Rewind();
 
-        // Start is called before the first frame update
-        void Start()
-        {
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        }
     }
 }

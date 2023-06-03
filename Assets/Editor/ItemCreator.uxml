@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:Template name="AdditionalStat" src="project://database/Assets/Editor/AdditionalStat.uxml?fileID=9197481963319205126&amp;guid=374e4f9e75cbad64aa6b1b37ebc712d4&amp;type=3#AdditionalStat" />
     <ui:Label text="ITEM CREATOR" display-tooltip-when-elided="true" name="title" style="justify-content: center; align-items: center; flex-wrap: nowrap; background-color: rgb(55, 190, 60); -unity-font-style: bold; font-size: 20px; -unity-text-align: upper-center; color: rgb(255, 255, 255); background-image: none; margin-bottom: 5px;" />
     <ui:GroupBox style="flex-direction: row; overflow: visible; align-items: flex-start; justify-content: flex-start; width: auto;">
         <ui:VisualElement name="ItemImage" style="width: 154px; height: 160px; background-image: url(&apos;project://database/Assets/Art/UI%20MMORPG%20Dark%20Templar/Map/Border.png?fileID=2800000&amp;guid=007b2be586c1aee47afdfbcebb0fac3f&amp;type=3#Border&apos;);">
@@ -9,6 +10,12 @@
             <ui:TextField picking-mode="Ignore" label="Item Name" binding-path="item_name" name="ItemName" style="width: 222px;" />
             <uie:IntegerField label="Item Level" value="42" name="ItemLevel" style="width: 223px;" />
             <uie:EnumField label="ItemType" value="Center" name="ItemType" />
+            <ui:Foldout text="Foldout">
+                <ui:Instance template="AdditionalStat" name="AdditionalStat" style="display: none;" />
+                <ui:VisualElement>
+                    <ui:Button text="+" display-tooltip-when-elided="true" name="AddStatButton" enable-rich-text="false" style="left: auto; flex-direction: row; position: absolute; bottom: -22px; right: -5px; align-items: auto; -unity-font-style: bold; color: rgb(255, 255, 255); -unity-background-image-tint-color: rgb(255, 0, 0); background-color: rgb(255, 93, 93);" />
+                </ui:VisualElement>
+            </ui:Foldout>
         </ui:GroupBox>
     </ui:GroupBox>
     <ui:Button text="Create Item" display-tooltip-when-elided="true" name="CreateButton" include-obsolete-values="true" style="-unity-text-align: middle-center; transform-origin: center; flex-direction: column; justify-content: flex-start; flex-wrap: nowrap; position: relative; top: auto; left: auto; width: 297px; background-color: rgb(190, 12, 0); align-items: stretch; font-size: 24px; -unity-font-style: bold; -unity-text-outline-width: 0; height: 61px; bottom: auto; overflow: visible; -unity-background-scale-mode: scale-and-crop;" />

@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="AdditionalStat">
+        <ui:DropdownField label="Additional Stat" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="DropdownField" />
+        <ui:SliderInt picking-mode="Ignore" label="Value" value="42" high-value="100" show-input-field="true" />
+    </ui:VisualElement>
+</ui:UXML>

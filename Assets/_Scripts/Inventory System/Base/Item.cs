@@ -39,11 +39,7 @@ namespace _Scripts.Inventory_System.Base
             return itemInfoList;
         }
         
-        
-        public string ID
-        {
-            get { return id; }
-        }
+        public string ID => id;
 
         private void OnValidate()
         {
@@ -51,15 +47,7 @@ namespace _Scripts.Inventory_System.Base
             id = AssetDatabase.AssetPathToGUID(path);
         }
 
-        public Item GetCopy()
-        {
-            return this;
-        }
-
-        public void Destroy()
-        {
-        }
-
+        public Item GetCopy() => this;
     }
 
     public enum AdditionalStats

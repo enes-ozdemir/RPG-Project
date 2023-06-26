@@ -1,9 +1,8 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Scripts.Inventory_System
+namespace _Scripts.Inventory_System.Tooltip
 {
     public class ItemTip : MonoBehaviour
     {

@@ -1,5 +1,7 @@
-﻿using _Scripts.Inventory_System;
+﻿using System;
+using _Scripts.Inventory_System;
 using _Scripts.Inventory_System.Base;
+using _Scripts.Inventory_System.Tooltip;
 using Enca.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,9 +18,10 @@ namespace _Scripts.Managers
         private BaseItemSlot _targetSlot;
         private Logger _log;
 
-        [Header("Colors")]
-        public Color itemGhostColor = Color.gray.GetColorWithAlpha(0.8f);
+        [Header("Colors")] public Color itemGhostColor = Color.gray.GetColorWithAlpha(0.8f);
         public Color itemBlockedColor = Color.red;
+
+        public bool isTooltipActive;
 
         private void OnEnable() => SetInventoryEvents();
 
@@ -56,15 +59,31 @@ namespace _Scripts.Managers
 
         private void ShowTooltip(BaseItemSlot itemSlot)
         {
-            var equippableItem = itemSlot.Item;
-            if (equippableItem != null)
+            var item = itemSlot.Item;
+            if (item != null)
             {
-                itemTooltip.ShowTooltip(equippableItem);
-                _log.Info($"ShowTooltip Item name: {equippableItem.itemName}");
+                _sourceSlot = itemSlot;
+                isTooltipActive = true;
+                _log.Info($"ShowTooltip Item name: {item.itemName}");
             }
         }
 
-        private void HideTooltip(BaseItemSlot itemSlot) => itemTooltip.HideTooltip();
+        private void Update()
+        {
+            if (isTooltipActive)
+            {
+                itemTooltip.ShowTooltip(_sourceSlot.Item);
+            }
+            else
+            {
+                itemTooltip.HideTooltip();
+            }
+        }
+
+        private void HideTooltip(BaseItemSlot itemSlot)
+        {
+            isTooltipActive = false;
+        }
 
         private void BeginDrag(BaseItemSlot itemSlot)
         {
@@ -88,7 +107,7 @@ namespace _Scripts.Managers
             _sourceSlot = null;
             draggableItem.enabled = false;
             //itemSlot.ResetSlotColor();
-            
+
             _log.Info($"EndDrag Item slot: {itemSlot.name}");
         }
 
@@ -150,7 +169,7 @@ namespace _Scripts.Managers
             _sourceSlot.Item = targetSlot.Item;
             _sourceSlot.Amount = targetSlot.Amount;
 
-         //   if (_sourceSlot.Item == null) _sourceSlot.DisableSlot();
+            //   if (_sourceSlot.Item == null) _sourceSlot.DisableSlot();
 
             targetSlot.Item = sourceItem;
             targetSlot.Amount = sourceItemQuantity;

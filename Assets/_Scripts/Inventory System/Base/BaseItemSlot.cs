@@ -21,6 +21,8 @@ namespace _Scripts.Inventory_System.Base
         private Image _slotImage;
         protected Image itemImage;
 
+        private bool _isPointerOver;
+
         [HideInInspector] public bool isEnabled;
 
         public Item Item
@@ -37,9 +39,17 @@ namespace _Scripts.Inventory_System.Base
             }
         }
 
+        private void Update()
+        {
+            if (_isPointerOver)
+            {
+                //Debug.Log("Mouse position: " + Input.mousePosition);
+            }
+        }
+
         private void EnableSlot()
         {
-            if (_item == null || itemImage==null) return;
+            if (_item == null || itemImage == null) return;
 
             itemImage.sprite = _item.itemIcon;
             itemImage.color = normalColor;
@@ -48,8 +58,10 @@ namespace _Scripts.Inventory_System.Base
 
         public void DisableSlot()
         {
-            itemImage.color = _disabledColor;
             isEnabled = false;
+            if (itemImage == null) return;
+
+            itemImage.color = _disabledColor;
         }
 
         private void OnEnable()
@@ -108,11 +120,13 @@ namespace _Scripts.Inventory_System.Base
         public void OnPointerEnter(PointerEventData eventData)
         {
             OnPointerEnterEvent?.Invoke(this);
+            _isPointerOver = true;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             OnPointerExitEvent?.Invoke(this);
+            _isPointerOver = false;
         }
 
         public void LightUpTheSlot(Color color) => _slotImage.color = color;

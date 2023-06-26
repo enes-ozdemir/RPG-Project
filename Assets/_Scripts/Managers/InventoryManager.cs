@@ -1,8 +1,9 @@
-﻿using System;
-using _Scripts.Inventory_System;
+﻿using _Scripts.Inventory_System;
 using _Scripts.Inventory_System.Base;
+using Enca.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
+using Logger = Enca.Debug.Logger;
 
 namespace _Scripts.Managers
 {
@@ -10,8 +11,14 @@ namespace _Scripts.Managers
     {
         [SerializeField] private Inventory playerInventory;
         [SerializeField] private Image draggableItem;
-        [SerializeField] ItemTooltip itemTooltip;
-        private BaseItemSlot _draggedSlot;
+        [SerializeField] private ItemTooltip itemTooltip;
+        private BaseItemSlot _sourceSlot;
+        private BaseItemSlot _targetSlot;
+        private Logger _log;
+
+        [Header("Colors")]
+        public Color itemGhostColor = Color.gray.GetColorWithAlpha(0.8f);
+        public Color itemBlockedColor = Color.red;
 
         private void OnEnable() => SetInventoryEvents();
 
@@ -40,33 +47,20 @@ namespace _Scripts.Managers
         private void Start()
         {
             playerInventory.gameObject.SetActive(true);
+            _log = new Logger("InventoryManager");
         }
 
         public void ToggleInventory() => playerInventory.gameObject.SetActive(!playerInventory.isActiveAndEnabled);
 
         public void CloseInventory() => playerInventory.gameObject.SetActive(false);
 
-        // public void DisplayShop()
-        // {
-        //     if (_isShopActive)
-        //     {
-        //         shopPanel.SetActive(false);
-        //         _isShopActive = false;
-        //         playerManager.isPlayerNotBlocked = true;
-        //     }
-        //     else
-        //     {
-        //         shopPanel.SetActive(true);
-        //         _isShopActive = true;
-        //         playerManager.isPlayerNotBlocked = false;
-        //     }
-        // }
         private void ShowTooltip(BaseItemSlot itemSlot)
         {
             var equippableItem = itemSlot.Item;
             if (equippableItem != null)
             {
                 itemTooltip.ShowTooltip(equippableItem);
+                _log.Info($"ShowTooltip Item name: {equippableItem.itemName}");
             }
         }
 
@@ -76,19 +70,26 @@ namespace _Scripts.Managers
         {
             if (itemSlot.Item != null)
             {
-                _draggedSlot = itemSlot;
+                _sourceSlot = itemSlot;
                 draggableItem.sprite = itemSlot.Item.itemIcon;
                 draggableItem.transform.position = Input.mousePosition;
                 draggableItem.enabled = true;
-                itemSlot.LightUpTheSlot(Color.green);
+                // itemSlot.LightUpTheSlot(Color.green);
+                _log.Info($"BeginDrag Item name: {itemSlot.Item.itemName}");
+            }
+            else
+            {
+                _log.Warning($"No Item on BeginDrag itemSlot: {itemSlot.name}");
             }
         }
 
         private void EndDrag(BaseItemSlot itemSlot)
         {
-            _draggedSlot = null;
+            _sourceSlot = null;
             draggableItem.enabled = false;
-            itemSlot.ResetSlotColor();
+            //itemSlot.ResetSlotColor();
+            
+            _log.Info($"EndDrag Item slot: {itemSlot.name}");
         }
 
         private void Drag(BaseItemSlot itemSlot)
@@ -100,58 +101,63 @@ namespace _Scripts.Managers
 
             if (itemSlot is PlayerItemSlot playerItemSlot)
             {
-                var currentItem = playerItemSlot.GetItemFromSlot();
+                var currentItem = playerItemSlot.Item;
                 Color lightColor;
                 if (playerItemSlot.CanReceiveItem(currentItem))
-                    lightColor = Color.green;
+                    lightColor = itemGhostColor;
                 else
-                    lightColor = Color.red;
+                    lightColor = itemBlockedColor;
                 itemSlot.LightUpTheSlot(lightColor);
             }
+
+            _log.Info($"Drag Item name: {itemSlot.Item.itemName}");
         }
 
         private void Drop(BaseItemSlot dropItemSlot)
         {
-            if (_draggedSlot == null) return;
+            if (_sourceSlot == null)
+            {
+                _log.Warning($"Dropped into nothingness Item name: {dropItemSlot.Item.itemName}");
+
+                return;
+            }
 
             // var isDraggedBuyable = ((PlayerItemSlot) _draggedSlot).buyableSlot;
             // var isDroppedBuyable = ((PlayerItemSlot) dropItemSlot).buyableSlot;
 
-        //    if (Input.GetKey(KeyCode.LeftShift) && !isDroppedBuyable && !isDraggedBuyable)
+            //    if (Input.GetKey(KeyCode.LeftShift) && !isDroppedBuyable && !isDraggedBuyable)
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 DivideItems(dropItemSlot);
             }
-            // else if (dropItemSlot.CanAddStack(draggedSlot.Item))
-            // {
-            //     if (isDraggedBuyable && !isDroppedBuyable)
-            //     {
-            //         ShopBuy(draggedSlot);
-            //     }
-            //     else if (isDroppedBuyable && !isDraggedBuyable)
-            //     {
-            //         ShopSell(draggedSlot);
-            //     }
-            //
-            //     AddStacks(dropItemSlot);
-            // }
-            // else if (dropItemSlot.CanReceiveItem(draggedSlot.Item) && draggedSlot.CanReceiveItem(dropItemSlot.Item))
-            // {
-            //     if (isDraggedBuyable && !isDroppedBuyable && dropItemSlot.Item == null)
-            //     {
-            //         ShopBuy(dropItemSlot);
-            //         SwapItems(dropItemSlot);
-            //     }
-            //     else if (!isDraggedBuyable && isDroppedBuyable && dropItemSlot.Item == null)
-            //     {
-            //         ShopSell(dropItemSlot);
-            //         SwapItems(dropItemSlot);
-            //     }
-            //     else if (!isDraggedBuyable && !isDroppedBuyable)
-            //     {
-            //         SwapItems(dropItemSlot);
-            //     }
-            // }
+            else if (dropItemSlot.CanAddStack(_sourceSlot.Item))
+            {
+                AddStacks(dropItemSlot);
+            }
+            else if (dropItemSlot.CanReceiveItem(_sourceSlot.Item) && _sourceSlot.CanReceiveItem(dropItemSlot.Item))
+            {
+                PlaceItem(dropItemSlot);
+            }
+
+            _log.Info($"Drop Item name: {dropItemSlot.Item.itemName}");
+        }
+
+        private void PlaceItem(BaseItemSlot targetSlot)
+        {
+            var sourceItem = _sourceSlot.Item;
+            int sourceItemQuantity = _sourceSlot.Amount;
+
+            _sourceSlot.Item = targetSlot.Item;
+            _sourceSlot.Amount = targetSlot.Amount;
+
+         //   if (_sourceSlot.Item == null) _sourceSlot.DisableSlot();
+
+            targetSlot.Item = sourceItem;
+            targetSlot.Amount = sourceItemQuantity;
+
+            _log.Info($"Slot Swapped: target: {targetSlot.name} source: {_sourceSlot.name}");
+            if (targetSlot.Item != null && _sourceSlot.Item != null)
+                _log.Info($"Item Swapped: target: {targetSlot.Item.name} source: {_sourceSlot.Item.name}");
         }
 
         // private void ShopBuy(BaseItemSlot dropItemSlot)
@@ -181,26 +187,32 @@ namespace _Scripts.Managers
         //     }
         // }
 
-        private void SwapItems(BaseItemSlot dropItemSlot)
+        private void SwapItems(BaseItemSlot targetSlot)
         {
-            var draggedItem = _draggedSlot.Item;
-            int draggedItemAmount = _draggedSlot.Amount;
+            var draggedItem = _sourceSlot.Item;
+            int draggedItemAmount = _sourceSlot.Amount;
 
-            _draggedSlot.Item = dropItemSlot.Item;
-            _draggedSlot.Amount = dropItemSlot.Amount;
+            _sourceSlot.Item = targetSlot.Item;
+            _sourceSlot.Amount = targetSlot.Amount;
 
-            dropItemSlot.Item = draggedItem;
-            dropItemSlot.Amount = draggedItemAmount;
+            targetSlot.Item = draggedItem;
+            targetSlot.Amount = draggedItemAmount;
+
+            _log.Info($"SwapItems Item name: {targetSlot.Item.itemName}");
         }
 
         private void DivideItems(BaseItemSlot dropItemSlot)
         {
             //if (inventory.IsFull()) return;
-            if (_draggedSlot.Amount == 1) return;
-            Item draggedItem = _draggedSlot.Item;
-            if (dropItemSlot.Item != null && _draggedSlot.Item != dropItemSlot.Item)
+            if (_sourceSlot.Amount == 1)
             {
-                Debug.Log("Dividing Items");
+                _log.Warning($"Amount : {_sourceSlot.Amount} cant be divided Item name: {dropItemSlot.Item.itemName}");
+                return;
+            }
+
+            var draggedItem = _sourceSlot.Item;
+            if (dropItemSlot.Item != null && _sourceSlot.Item != dropItemSlot.Item)
+            {
                 return;
             }
 
@@ -208,22 +220,22 @@ namespace _Scripts.Managers
 
 
             //Handle if item can be directly divided to 2
-            if (_draggedSlot.Amount % 2 == 0)
+            if (_sourceSlot.Amount % 2 == 0)
             {
-                draggedItemAmount = _draggedSlot.Amount / 2;
-                _draggedSlot.Amount = draggedItemAmount;
+                draggedItemAmount = _sourceSlot.Amount / 2;
+                _sourceSlot.Amount = draggedItemAmount;
             }
             else
             {
-                draggedItemAmount = (_draggedSlot.Amount - 1) / 2;
-                _draggedSlot.Amount = draggedItemAmount;
+                draggedItemAmount = (_sourceSlot.Amount - 1) / 2;
+                _sourceSlot.Amount = draggedItemAmount;
                 dropItemSlot.Amount++;
             }
 
-            _draggedSlot.Item = draggedItem;
+            _sourceSlot.Item = draggedItem;
             dropItemSlot.Item = draggedItem;
 
-            if (_draggedSlot.Item == dropItemSlot.Item)
+            if (_sourceSlot.Item == dropItemSlot.Item)
             {
                 draggedItemAmount += dropItemSlot.Amount;
                 if (draggedItemAmount <= dropItemSlot.Item.maximumStacks)
@@ -232,27 +244,35 @@ namespace _Scripts.Managers
                 }
                 else
                 {
-                    int tempAmount = _draggedSlot.Amount;
-                    _draggedSlot.Amount =
-                        (_draggedSlot.Amount * 2 - (dropItemSlot.Item.maximumStacks - dropItemSlot.Amount));
+                    int tempAmount = _sourceSlot.Amount;
+                    _sourceSlot.Amount =
+                        (_sourceSlot.Amount * 2 - (dropItemSlot.Item.maximumStacks - dropItemSlot.Amount));
                     dropItemSlot.Amount = dropItemSlot.Item.maximumStacks;
                 }
             }
             else dropItemSlot.Amount = draggedItemAmount;
+
+            _log.Info($"DivideItems Item name: {dropItemSlot.Item.itemName}");
         }
 
         private void AddStacks(BaseItemSlot dropItemSlot)
         {
             int numAddableStacks = dropItemSlot.Item.maximumStacks - dropItemSlot.Amount;
-            int stacksToAdd = Mathf.Min(numAddableStacks, _draggedSlot.Amount);
+            int stacksToAdd = Mathf.Min(numAddableStacks, _sourceSlot.Amount);
 
             dropItemSlot.Amount += stacksToAdd;
-            _draggedSlot.Amount -= stacksToAdd;
+            _sourceSlot.Amount -= stacksToAdd;
+
+            _log.Info($"AddStacks Item name: {dropItemSlot.Item.itemName}");
         }
 
         public void RemoveStack(BaseItemSlot currentItemSlot)
         {
-            if (currentItemSlot.Item != null) currentItemSlot.Amount--;
+            if (currentItemSlot.Item != null)
+            {
+                currentItemSlot.Amount--;
+                _log.Info($"RemoveStack Item name: {currentItemSlot.Item.itemName}");
+            }
         }
     }
 }

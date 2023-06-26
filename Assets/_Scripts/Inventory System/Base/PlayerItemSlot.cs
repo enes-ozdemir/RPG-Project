@@ -23,14 +23,14 @@ namespace _Scripts.Inventory_System.Base
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (Item != null) image.color = _dragColor;
+            if (Item != null) itemImage.color = _dragColor;
             
             OnBeginDragEvent?.Invoke(this);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (Item != null) image.color = normalColor;
+            if (Item != null) itemImage.color = normalColor;
             
             OnEndDragEvent?.Invoke(this);
         }

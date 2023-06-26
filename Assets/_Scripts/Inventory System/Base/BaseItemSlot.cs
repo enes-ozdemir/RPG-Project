@@ -2,13 +2,13 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace _Scripts.Inventory_System.Base
 {
     public class BaseItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField] protected Image image;
         [SerializeField] protected TextMeshProUGUI amountText;
 
         public event Action<BaseItemSlot> OnPointerEnterEvent;
@@ -18,30 +18,44 @@ namespace _Scripts.Inventory_System.Base
         protected Color normalColor = Color.white;
         private Color _disabledColor = new(1, 1, 1, 0);
         private Item _item;
+        private Image _slotImage;
+        protected Image itemImage;
+
+        [HideInInspector] public bool isEnabled;
 
         public Item Item
+
         {
             get => _item;
             set
             {
                 _item = value;
                 if (_item == null)
-                {
-                    image.color = _disabledColor;
-                }
+                    DisableSlot();
                 else
-                {
-                    image.sprite = _item.itemIcon;
-                    image.color = normalColor;
-                }
+                    EnableSlot();
             }
         }
 
-        private Image _baseImage;
+        private void EnableSlot()
+        {
+            if (_item == null || itemImage==null) return;
+
+            itemImage.sprite = _item.itemIcon;
+            itemImage.color = normalColor;
+            isEnabled = true;
+        }
+
+        public void DisableSlot()
+        {
+            itemImage.color = _disabledColor;
+            isEnabled = false;
+        }
 
         private void OnEnable()
         {
-            _baseImage = GetComponentInParent<Image>();
+            _slotImage = GetComponentInParent<Image>();
+            itemImage = GetComponent<Image>();
         }
 
         private int _amount;
@@ -67,8 +81,8 @@ namespace _Scripts.Inventory_System.Base
 
         protected void OnValidate()
         {
-            if (image == null)
-                image = GetComponent<Image>();
+            if (itemImage == null)
+                itemImage = GetComponent<Image>();
 
             if (amountText == null)
                 amountText = GetComponentInChildren<TextMeshProUGUI>();
@@ -101,13 +115,11 @@ namespace _Scripts.Inventory_System.Base
             OnPointerExitEvent?.Invoke(this);
         }
 
-        public Item GetItemFromSlot() => Item;
-
-        public void LightUpTheSlot(Color color) => _baseImage.color= color;
+        public void LightUpTheSlot(Color color) => _slotImage.color = color;
 
         public void ResetSlotColor()
         {
-            if (_baseImage.color != normalColor) _baseImage.color = normalColor;
+            if (_slotImage.color != normalColor) _slotImage.color = normalColor;
         }
     }
 }

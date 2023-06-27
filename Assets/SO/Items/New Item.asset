@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d34657379404c7abc9622036c7bd406, type: 3}
-  m_Name: New Item 2
+  m_Name: New Item
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Apple
   minLevel: 0
   itemLevel: 0
   itemValue: 0
-  itemIcon: {fileID: 21300000, guid: 1a129fc17ec2bf6459ae629a5358a25f, type: 3}
+  itemIcon: {fileID: 21300000, guid: 6a0aaf885270acc4598f234c89776840, type: 3}
   bonusStats: []
   itemType: 1
   maximumStacks: 1
   itemID: 0
-  width: 0
-  height: 0
-  id: 9e5b1fb67d1c9af44898d67959b09e77
+  width: 2
+  height: 2
+  id: 482630880a9cd954e9358d7a8fa308e7

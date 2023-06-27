@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d34657379404c7abc9622036c7bd406, type: 3}
   m_Name: New Item 1
   m_EditorClassIdentifier: 
-  itemName: "aL\u0130"
+  itemName: Axe
   minLevel: 432
   itemLevel: 4
   itemValue: 5
@@ -27,6 +27,6 @@ MonoBehaviour:
   itemType: 1
   maximumStacks: 1
   itemID: 0
-  width: 0
-  height: 0
+  width: 1
+  height: 3
   id: aa3c8edb41596a14db156993c0ede92a

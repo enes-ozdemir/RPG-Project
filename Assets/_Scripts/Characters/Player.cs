@@ -1,4 +1,5 @@
 using System;
+using _Scripts.Managers;
 using UnityEngine;
 
 namespace _Scripts
@@ -12,10 +13,24 @@ namespace _Scripts
 
         private Animator _animator;
 
-
         private void Start()
         {
             _animator = GetComponent<Animator>();
+        }
+
+        private void OnEnable()
+        {
+            EventManager.AddListener(GameEvent.PlayerMoved,MoveDebug);
+        }
+
+        private void OnDisable()
+        {
+            EventManager.RemoveListener(GameEvent.PlayerMoved,MoveDebug);
+        }
+
+        private void MoveDebug()
+        {
+            Debug.Log("Moveeeee");
         }
 
         private void Update()
@@ -25,10 +40,12 @@ namespace _Scripts
 
         private void Move()
         {
+            EventManager.TriggerEvent(GameEvent.PlayerMoved);
+
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
 
-            Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput);
+            var movement = new Vector3(horizontalInput, 0f, verticalInput);
             movement.Normalize(); // Normalize the movement vector to ensure consistent speed
 
             transform.position += movement * speed * Time.deltaTime;
@@ -36,5 +53,7 @@ namespace _Scripts
             _animator.Play("Sprint");
             
         }
+        
+        
     }
 }

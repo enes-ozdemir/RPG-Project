@@ -2,7 +2,6 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace _Scripts.Inventory_System.Base
@@ -19,9 +18,11 @@ namespace _Scripts.Inventory_System.Base
         private Color _disabledColor = new(1, 1, 1, 0);
         private Item _item;
         private Image _slotImage;
-        protected Image itemImage;
+        public int cellSize {get; set;}
+        [SerializeField] protected Image itemImage;
 
         private bool _isPointerOver;
+        public bool isOccupied;
 
         [HideInInspector] public bool isEnabled;
 
@@ -43,7 +44,7 @@ namespace _Scripts.Inventory_System.Base
         {
             if (_isPointerOver)
             {
-                //Debug.Log("Mouse position: " + Input.mousePosition);
+              //  Debug.Log("Mouse position: " + Input.mousePosition);
             }
         }
 
@@ -52,22 +53,27 @@ namespace _Scripts.Inventory_System.Base
             if (_item == null || itemImage == null) return;
 
             itemImage.sprite = _item.itemIcon;
+
+            // Adjust the size of the image to cover multiple slots
+            itemImage.rectTransform.sizeDelta = new Vector2(_item.width * cellSize*0.75f, _item.height * cellSize*0.75f);
+
             itemImage.color = normalColor;
             isEnabled = true;
+            isOccupied = true;
         }
+
 
         public void DisableSlot()
         {
             isEnabled = false;
+            isOccupied = false;
             if (itemImage == null) return;
-
             itemImage.color = _disabledColor;
         }
 
         private void OnEnable()
         {
-            _slotImage = GetComponentInParent<Image>();
-            itemImage = GetComponent<Image>();
+            _slotImage = GetComponent<Image>();
         }
 
         private int _amount;

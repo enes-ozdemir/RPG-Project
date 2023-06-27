@@ -1,6 +1,4 @@
-﻿using System;
-using _Scripts.Inventory_System;
-using _Scripts.Inventory_System.Base;
+﻿using _Scripts.Inventory_System.Base;
 using _Scripts.Inventory_System.Tooltip;
 using Enca.Extensions;
 using UnityEngine;
@@ -21,7 +19,7 @@ namespace _Scripts.Managers
         [Header("Colors")] public Color itemGhostColor = Color.gray.GetColorWithAlpha(0.8f);
         public Color itemBlockedColor = Color.red;
 
-        public bool isTooltipActive;
+       private bool _isTooltipActive;
 
         private void OnEnable() => SetInventoryEvents();
 
@@ -63,14 +61,14 @@ namespace _Scripts.Managers
             if (item != null)
             {
                 _sourceSlot = itemSlot;
-                isTooltipActive = true;
+                _isTooltipActive = true;
                 _log.Info($"ShowTooltip Item name: {item.itemName}");
             }
         }
 
         private void Update()
         {
-            if (isTooltipActive)
+            if (_isTooltipActive)
             {
                 itemTooltip.ShowTooltip(_sourceSlot.Item);
             }
@@ -82,7 +80,7 @@ namespace _Scripts.Managers
 
         private void HideTooltip(BaseItemSlot itemSlot)
         {
-            isTooltipActive = false;
+            _isTooltipActive = false;
         }
 
         private void BeginDrag(BaseItemSlot itemSlot)
@@ -158,7 +156,7 @@ namespace _Scripts.Managers
                 PlaceItem(dropItemSlot);
             }
 
-            _log.Info($"Drop Item name: {dropItemSlot.Item.itemName}");
+           // _log.Info($"Drop Item name: {dropItemSlot.Item.itemName}");
         }
 
         private void PlaceItem(BaseItemSlot targetSlot)

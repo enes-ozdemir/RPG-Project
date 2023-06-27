@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b8506201b421fa8868caea3e9bf18, type: 3}
+  m_Name: Common Dialogs
+  m_EditorClassIdentifier: 
+  dialogs:
+  - "Merhaba, macerac\u0131 dostum!"
+  - "Bu yolculukta sana yard\u0131mc\u0131 olabilirim."
+  - "Canavarlarla sava\u015F\u0131rken dikkatli ol!"
+  - "E\u015Fyalar\u0131m ger\xE7ekten \xF6zel, bir g\xF6z atmak ister misin?"
+  - "Macera ba\u015Flamadan \xF6nce biraz dinlenmek iyi olur."
+  - "Hayat bir sava\u015F gibidir, her d\xFC\u015F\xFC\u015F yeni bir ba\u015Flang\u0131\xE7t\u0131r."
+  - "Hedeflerine odaklan ve asla vazge\xE7me!"
+  - "G\xFC\xE7l\xFC olmak i\xE7in s\xFCrekli e\u011Fitim yapmal\u0131s\u0131n."
+  - "Arkada\u015Flar\u0131nla birlikte daha g\xFC\xE7l\xFC olabilirsin."
+  - "Maceraya at\u0131lmadan \xF6nce biraz yiyecek almal\u0131s\u0131n."

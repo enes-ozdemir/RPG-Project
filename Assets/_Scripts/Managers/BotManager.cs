@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using _Scripts.Controllers;
 using _Scripts.SO;
+using _Scripts.UI;
+using Enca.Debug;
 using Enca.Extensions;
 using UnityEngine;
 
@@ -11,7 +13,7 @@ namespace _Scripts.Managers
         [SerializeField] private int maxBotSize = 20;
         [SerializeField] private int startBotSize = 20;
 
-        [SerializeField] private BotController botController;
+        [SerializeField] private CharInfo charInfo;
         [SerializeField] private BotData botData;
         [SerializeField] private List<Transform> botGenerationPoints;
 
@@ -32,7 +34,9 @@ namespace _Scripts.Managers
         {
             var prefab = GetRandomBotPrefab();
             var bot = Instantiate(prefab, botGenerationPoints.SelectRandomItem().position, Quaternion.identity);
-            bot.AddComponent<BotController>();
+            var controller = bot.AddComponent<BotController>();
+            controller.InitializeBot(charInfo);
+
             EventManager.TriggerEvent(GameEvent.OnBotGenerated);
         }
 

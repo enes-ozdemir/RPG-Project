@@ -1,4 +1,6 @@
-﻿namespace _Scripts
+﻿using Enca.Debug;
+
+namespace _Scripts
 {
     public class Stats
     {
@@ -19,6 +21,9 @@
             this.armor = armor;
             this.magicResist = magicResist;
             this.movementSpeed = movementSpeed;
+            
+            Log.Info("Stats are: health: " + health + " mana: " + mana + " attackDamage: " + attackDamage + " attackSpeed: " + attackSpeed + " armor: " + armor + " magicResist: " + magicResist + " movementSpeed: " + movementSpeed);
+            
         }
     }
 }

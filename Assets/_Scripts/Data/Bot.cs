@@ -1,5 +1,6 @@
 ﻿using System;
 using _Scripts.Utils;
+using Enca.Debug;
 using Enca.Extensions;
 using Random = Enca.Extensions.Random;
 
@@ -12,12 +13,13 @@ namespace _Scripts.Data
         public int level;
         public Stats stats;
 
-        public Bot()
+        public Bot(int level,string name, Stats stats)
         {
-            level = Random.GetRandomNumber(99).ToInt();
-            name = RpgUtil.GetRandomRpgName();
-            stats = RpgUtil.GetRandomStats(level);
+            this.level = level;
+            this.name = name;
+            this.stats = stats;
         }
+       
      
     }
 }

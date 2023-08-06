@@ -5,18 +5,17 @@ namespace _Scripts.Controllers
 {
     public class CharController : MonoBehaviour
     {
-        private Animator _animatorController;
+        [SerializeField] protected Animator AnimatorController;
         [SerializeField] protected CharInfo charInfo;
         
         private void Awake()
         {
-            
-            _animatorController = GetComponent<Animator>();
+            AnimatorController = GetComponent<Animator>();
         }
         
         public void PlayAnim(string animName)
         {
-            _animatorController.Play(animName);
+            AnimatorController.Play(animName);
         }
     }
 }

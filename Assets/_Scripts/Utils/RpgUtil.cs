@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _Scripts.Data;
+using UnityEngine;
 
 namespace _Scripts.Utils
 {
@@ -6,7 +7,8 @@ namespace _Scripts.Utils
     {
         private static string[] RpgNames = new string[]
         {
-            "Enca","Caen","Numunik","selmanbaba67","SirAiakos","Sauron666","ilkerix","Requashe","Albastı","Phantaso"
+            "Enca","Caen","Numunik","selmanbaba67","SirAiakos","ilkerix","Requashe","Emirhan","SAUVEUR"
+            //"mamitsli","benholmes","Sauron666","Phantaso"
         };
 
         public static string GetRandomRpgName()
@@ -25,9 +27,10 @@ namespace _Scripts.Utils
             float attackSpeed = (float) (rand.Next(1, 3) + rand.NextDouble()); 
             int armor = rand.Next(5, 10) * level;
             int magicResist = rand.Next(5, 10) * level;
-            int movementSpeed = rand.Next(5, 10) * level;
+            int movementSpeed = rand.Next(3, 8);
+            int dodgeCooldown = rand.Next(2, 5) * 1/level;
 
-            return new Stats(health, mana, attackDamage, attackSpeed, armor, magicResist, movementSpeed);
+            return new Stats(health, mana, attackDamage, attackSpeed, armor, magicResist, movementSpeed,dodgeCooldown);
         }
     }
 }

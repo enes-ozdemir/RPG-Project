@@ -35,9 +35,9 @@ namespace _Scripts.Inventory_System.Base
 
         private void CreateCells()
         {
-            for (int i = 0; i < containerSize.x; i++)
+            for (int i = 0; i < width; i++)
             {
-                for (int j = 0; j < containerSize.y; j++)
+                for (int j = 0; j < height; j++)
                 {
                     var slot = Instantiate(cellSlot, cellParent);
                 }
@@ -46,13 +46,12 @@ namespace _Scripts.Inventory_System.Base
 
         private void CreateInventorySlots()
         {
-            for (int i = 0; i < containerSize.x; i++)
+            for (int i = 0; i < width; i++)
             {
-                for (int j = 0; j < containerSize.y; j++)
+                for (int j = 0; j < height; j++)
                 {
                     var slot = Instantiate(playerItemSlot, itemParent);
-                    itemSlots.Add(slot);
-                    slot.cellSize = cellSize;
+                    itemSlots[i, j] = slot;
                     AddEventsForInventorySlots(slot);
                 }
             }
@@ -60,8 +59,8 @@ namespace _Scripts.Inventory_System.Base
 
         private void SetCellSize()
         {
-            gridLayout.cellSize = new Vector2(cellSize, cellSize);
-            cellLayout.cellSize = new Vector2(cellSize, cellSize);
+            gridLayout.cellSize = new Vector2(50, 50);
+            cellLayout.cellSize = new Vector2(50, 50);
         }
 
         private void AddEventsForInventorySlots(PlayerItemSlot slot)
@@ -83,21 +82,17 @@ namespace _Scripts.Inventory_System.Base
         private void SetStartingItems()
         {
             int i = 0;
-            for (; i < startingItems.Count && i < itemSlots.Count; i++)
+            for (; i < startingItems.Count && i < itemSlots.Length; i++)
             {
                 AddItem(startingItems[i].GetCopy());
             }
 
-            for (; i < itemSlots.Count; i++)
-            {
-                itemSlots[i].Item = null;
-                itemSlots[i].Amount = 0;
-            }
         }
 
         public bool ContainsItem(Item item)
         {
-            return itemSlots.Any(slot => slot.Item == item);
+            return itemSlots.Cast<PlayerItemSlot>().Any(t => t.Item == item);
         }
+
     }
 }

@@ -16,13 +16,14 @@ namespace _Scripts.Inventory_System.Base
 
         protected Color normalColor = Color.white;
         private Color _disabledColor = new(1, 1, 1, 0);
-        private Item _item;
         private Image _slotImage;
         public int cellSize {get; set;}
         [SerializeField] protected Image itemImage;
 
         private bool _isPointerOver;
+        private Item _item;
         public bool isOccupied;
+        public Vector2Int position;
 
         [HideInInspector] public bool isEnabled;
 
@@ -40,6 +41,12 @@ namespace _Scripts.Inventory_System.Base
             }
         }
 
+        
+        public bool IsContain(Item item)
+        {
+            return this._item == item;
+        }
+        
         private void Update()
         {
             if (_isPointerOver)

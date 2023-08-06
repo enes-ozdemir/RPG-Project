@@ -2,7 +2,9 @@
 {
     public enum GameEvent
     {
-        PlayerMoved,
+        PlayerMoving,
+        PlayerStopped,
+        PlayerDodge,
         OnBotGenerated,
     }
 

@@ -9,127 +9,156 @@ namespace _Scripts.Inventory_System.Base
     {
         //  [SerializeField] protected PlayerItemSlot[] itemSlots;
         [SerializeField] protected PlayerItemSlot playerItemSlot;
+        public BaseItemSlot[,] itemSlots;
+
         [SerializeField] protected GameObject cellSlot;
-        protected List<BaseItemSlot> itemSlots = new();
 
-        [SerializeField] protected Vector2Int containerSize;
+        // protected List<BaseItemSlot> itemSlots = new();
+        [SerializeField] protected int width;
+        [SerializeField] protected int height;
         protected int slotCount;
-        public int cellSize;
-
 
         private void Awake()
         {
-            slotCount = containerSize.x * containerSize.y;
-        }
-
-        private bool IsSlotAvailable(int index)
-        {
-            if (index < 0 || index >= itemSlots.Count) return false;
-            if (itemSlots[index].isOccupied) return false;
-            return itemSlots[index].Item == null;
-        }
-
-   public bool AddItem(Item item)
-{
-    for (int itemIndex = 0; itemIndex < itemSlots.Count; itemIndex++)
-    {
-        if (!IsSlotAvailable(itemIndex))
-        {
-            continue;
-        }
-
-        int itemWIndex = item.width;
-        int itemH = item.height;
-
-        if (itemWIndex <= 0 || itemH <= 0)
-        {
-            Debug.LogError("Item width or height is less than 0");
-            return false;
-        }
-
-        var widthOccupiedIndices = new List<int>();
-        var heightOccupiedIndices = new List<int>();
-        if (!IsWidthAvailable(itemWIndex, itemIndex, out widthOccupiedIndices) || !IsHeightAvailable(itemH, itemIndex, out heightOccupiedIndices))
-        {
-            continue;
-        }
-
-        try
-        {
-            itemSlots[itemIndex].Item = item;
-            itemSlots[itemIndex].isOccupied = true;
-            
-            foreach (var index in widthOccupiedIndices)
+            Debug.Log("Initializing Inventory with width: " + width + " and height: " + height);
+            this.width = width;
+            this.height = height;
+            itemSlots = new BaseItemSlot[width, height];
+            for (int i = 0; i < width; i++)
             {
-                itemSlots[index].isOccupied = true;
-            }
-            foreach (var index in heightOccupiedIndices)
-            {
-                itemSlots[index].isOccupied = true;
-            }
-            return true;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e.Message + " " + e.ToString());
-        }
-    }
-
-    return false;
-}
-
-private bool IsHeightAvailable(int itemHeight, int itemIndex, out List<int> availableIndex)
-{
-    availableIndex = new List<int>();
-    int currentRowIndex = itemIndex / containerSize.x;
-    for (int i = 1; i < itemHeight; i++)
-    {
-        var newRow = currentRowIndex + i;
-        if (newRow >= containerSize.y) return false;
-
-        var newIndex = newRow * containerSize.x + (itemIndex % containerSize.x);
-        if (!IsSlotAvailable(newIndex))
-        {
-            return false;
-        }
-        availableIndex.Add(newIndex);
-    }
-    return true;
-}
-
-private bool IsWidthAvailable(int itemWidth, int itemIndex, out List<int> availableIndex)
-{
-    availableIndex = new List<int>();
-    int currentColumnIndex = itemIndex % containerSize.x;
-    for (int i = 1; i < itemWidth; i++)
-    {
-        var newColumn = currentColumnIndex + i;
-        if (newColumn >= containerSize.x) return false;
-
-        var newIndex = itemIndex + i;
-        if (!IsSlotAvailable(newIndex))
-        {
-            return false;
-        }
-        availableIndex.Add(newIndex);
-    }
-    return true;
-}
-
-
-
-        public bool RemoveItem(Item item)
-        {
-            foreach (var slot in itemSlots)
-            {
-                if (slot.Item == item)
+                for (int j = 0; j < height; j++)
                 {
-                    slot.Amount--;
-                    return true;
+                    itemSlots[i, j] = new BaseItemSlot
+                    {
+                        position = new Vector2Int(i, j)
+                    };
                 }
             }
 
+            Debug.Log("Inventory initialized.");
+        }
+
+        public ItemContainer()
+        {
+            // Debug.Log("Initializing Inventory with width: " + width + " and height: " + height);
+            itemSlots = new BaseItemSlot[width, height];
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    itemSlots[i, j] = new BaseItemSlot
+                    {
+                        position = new Vector2Int(i, j)
+                    };
+                }
+            }
+
+            // Debug.Log("Inventory initialized.");
+        }
+
+        public bool AddItem(Item item)
+        {
+            Debug.Log("Adding item: " + item.name + " to inventory.");
+
+            for (int x = 0; x <= width - item.width; x++)
+            {
+                for (int y = 0; y <= height - item.height; y++)
+                {
+                    if (CanFit(item, new Vector2Int(x, y)))
+                    {
+                        PlaceItem(item, new Vector2Int(x, y));
+                        Debug.Log("Item added successfully.");
+                        return true;
+                    }
+                }
+            }
+
+            Debug.Log("Failed to add item. No suitable place found.");
             return false;
+        }
+
+        private bool CanFit(Item item, Vector2Int position)
+        {
+            Debug.Log("Checking if item: " + item.name + " can fit at position: " + position);
+
+            int x = position.x;
+            int y = position.y;
+
+            for (int i = x; i < x + item.width; i++)
+            {
+                for (int j = y; j < y + item.height; j++)
+                {
+                    if (itemSlots[i, j].isOccupied)
+                    {
+                        Debug.Log("Item can't fit. Required slot is not free.");
+                        return false;
+                    }
+                }
+            }
+
+            Debug.Log("Item can fit at given position.");
+            return true;
+        }
+
+        private void PlaceItem(Item item, Vector2Int position)
+        {
+            Debug.Log("Placing item: " + item.name + " at position: " + position);
+
+            int x = position.x;
+            int y = position.y;
+
+            for (int i = x; i < x + item.width; i++)
+            {
+                for (int j = y; j < y + item.height; j++)
+                {
+                    itemSlots[i, j].Item = item;
+                    itemSlots[i, j].isOccupied = true;
+
+                    if (i == x && j == y)
+                    {
+                        //slots[i, j].SetSprite(item.sprite);
+                    }
+                }
+            }
+
+            Debug.Log("Item placed successfully.");
+        }
+
+        public bool RemoveItem(Item item)
+        {
+            Debug.Log("Removing item: " + item.name + " from inventory.");
+            bool itemFound = false;
+
+            // Iterate over all slots in the inventory
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    // Check if the current slot contains the item
+                    if (itemSlots[i, j].isOccupied && itemSlots[i, j].Item == item)
+                    {
+                        // If the item is found, remove it
+                        itemSlots[i, j].Item = null;
+                        itemSlots[i, j].isOccupied = false;
+                        itemFound = true;
+                        Debug.Log("Item found and removed at position: (" + i + "," + j + ")");
+                    }
+                }
+            }
+
+            if (!itemFound)
+            {
+                Debug.Log("Item not found in inventory. Removal failed.");
+                return false;
+            }
+
+            Debug.Log("Item removed successfully.");
+            return true;
+        }
+
+        public int ItemCount(string itemID)
+        {
+            return 12;
         }
 
         public Item RemoveItem(string itemID)
@@ -147,8 +176,22 @@ private bool IsWidthAvailable(int itemWidth, int itemIndex, out List<int> availa
             return null;
         }
 
-        public bool IsFull() => itemSlots.All(slot => slot.Item != null);
+        public bool IsEmpty()
+        {
+            Debug.Log("Checking if inventory is empty");
+            return itemSlots.Cast<BaseItemSlot>().All(slot => !slot.isOccupied);
+        }
 
-        public int ItemCount(string itemID) => itemSlots.Count(slot => slot.Item.ID == itemID);
+        public bool IsFull()
+        {
+            Debug.Log("Checking if inventory is full");
+            return itemSlots.Cast<BaseItemSlot>().All(slot => slot.isOccupied);
+        }
+
+        public int GetItemCount(Item item)
+        {
+            Debug.Log("Getting count of item: " + item.name);
+            return itemSlots.Cast<BaseItemSlot>().Count(slot => slot.isOccupied && slot.Item == item);
+        }
     }
 }

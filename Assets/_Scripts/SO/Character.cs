@@ -1,4 +1,5 @@
 ﻿using System;
+using _Scripts.Data;
 using UnityEngine;
 
 namespace _Scripts.SO

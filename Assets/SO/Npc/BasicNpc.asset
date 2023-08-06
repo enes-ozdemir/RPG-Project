@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31666657aebf1d64b9c5a2bd1373d437, type: 3}
   m_Name: BasicNpc
   m_EditorClassIdentifier: 
-  name: ' Ali'
+  name: "K\xF6y Gardiyan\u0131"
   level: 99
   dialogue: {fileID: 11400000, guid: d4284547c03826043a9df3512ba7f371, type: 2}
   npcPrefab: {fileID: 0}

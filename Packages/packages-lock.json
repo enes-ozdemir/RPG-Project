@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "2a651d904187788de1076387ef56b4744c1ff2b1"
+      "hash": "34456314698a390fc9fdea98b4e90f886813a720"
     },
     "com.unity.2d.animation": {
       "version": "7.0.3",
@@ -154,13 +154,6 @@
       "dependencies": {
         "com.unity.test-framework": "1.1.9"
       },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.ide.vscode": {
-      "version": "1.2.5",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.inputsystem": {

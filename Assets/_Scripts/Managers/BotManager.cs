@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Scripts.Controllers;
 using _Scripts.SO;
 using _Scripts.UI;
 using Enca.Debug;
 using Enca.Extensions;
+using UnityEditor;
 using UnityEngine;
 
 namespace _Scripts.Managers
@@ -12,10 +14,18 @@ namespace _Scripts.Managers
     {
         [SerializeField] private int maxBotSize = 20;
         [SerializeField] private int startBotSize = 20;
+        [SerializeField] private float botWalkRadius = 40f;
 
         [SerializeField] private CharInfo charInfo;
         [SerializeField] private BotData botData;
         [SerializeField] private List<Transform> botGenerationPoints;
+
+        private void OnDrawGizmos()
+        {
+            //draw sphere
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, botWalkRadius);
+        }
 
         private void Start()
         {
@@ -34,8 +44,8 @@ namespace _Scripts.Managers
         {
             var prefab = GetRandomBotPrefab();
             var bot = Instantiate(prefab, botGenerationPoints.SelectRandomItem().position, Quaternion.identity);
-            var controller = bot.AddComponent<BotController>();
-            controller.InitializeBot(charInfo);
+            var controller = bot.GetComponent<BotController>();
+            controller.InitializeBot(charInfo,transform, botWalkRadius);
 
             EventManager.TriggerEvent(GameEvent.OnBotGenerated);
         }

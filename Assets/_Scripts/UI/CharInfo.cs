@@ -16,10 +16,10 @@ namespace _Scripts.UI
             dialogText.gameObject.SetActive(false);
         }
 
-        public void CreateCharInfo(int level,string name)
+        public void CreateCharInfo(int level,string charName)
         {
             levelText.text = level.ToString();
-            nameText.text = name;
+            nameText.text = charName;
         }
         
         private IEnumerator Talk_Co(string dialogue, float time)
@@ -30,7 +30,12 @@ namespace _Scripts.UI
             dialogText.gameObject.SetActive(false);
 
         }
-        
+
+        private void Update()
+        {
+            transform.LookAt(Camera.main.transform);
+        }
+
         public void Talk(string dialogue, float time)
         {
             if(gameObject.activeInHierarchy)

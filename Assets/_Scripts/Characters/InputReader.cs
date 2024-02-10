@@ -12,7 +12,6 @@ namespace _Scripts.Characters
         public Action AttackEvent;
         [SerializeField] private RPGMotorMMO rpgMotor;
 
-
         private void Start()
         {
             SetControls();

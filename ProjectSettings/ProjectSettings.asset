@@ -779,7 +779,7 @@ PlayerSettings:
     Nintendo Switch: GAMEMODULES
     PS4: GAMEMODULES
     Stadia: GAMEMODULES
-    Standalone: GAMEMODULES
+    Standalone: GAMEMODULES;Breeze_Behaviour
     WebGL: GAMEMODULES
     Windows Store Apps: GAMEMODULES
     XboxOne: GAMEMODULES

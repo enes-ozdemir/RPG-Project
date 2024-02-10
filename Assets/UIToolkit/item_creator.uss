@@ -1,0 +1,24 @@
+#ItemLevel > Label {
+    max-width: 40px;
+    min-width: 50px;
+}
+
+#ItemName > Label {
+    max-width: 40px;
+    min-width: 50px;
+}
+
+#ItemType > Label {
+    max-width: 40px;
+    min-width: 50px;
+}
+
+#Stat > Label {
+    max-width: 40px;
+    min-width: 50px;
+}
+
+#Value > Label {
+    max-width: 40px;
+    min-width: 50px;
+}

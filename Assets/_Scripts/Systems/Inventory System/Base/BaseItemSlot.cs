@@ -17,8 +17,9 @@ namespace _Scripts.Inventory_System.Base
         protected Color normalColor = Color.white;
         private Color _disabledColor = new(1, 1, 1, 0);
         private Image _slotImage;
-        public int cellSize {get; set;}
+        public int cellSize { get; set; }
         [SerializeField] protected Image itemImage;
+        [SerializeField] private string itemName;
 
         private bool _isPointerOver;
         private Item _item;
@@ -34,6 +35,7 @@ namespace _Scripts.Inventory_System.Base
             set
             {
                 _item = value;
+                itemName = _item.itemName;
                 if (_item == null)
                     DisableSlot();
                 else
@@ -41,28 +43,28 @@ namespace _Scripts.Inventory_System.Base
             }
         }
 
-        
+
         public bool IsContain(Item item)
         {
             return this._item == item;
         }
-        
+
         private void Update()
         {
             if (_isPointerOver)
             {
-              //  Debug.Log("Mouse position: " + Input.mousePosition);
+                //  Debug.Log("Mouse position: " + Input.mousePosition);
             }
         }
 
         private void EnableSlot()
         {
             if (_item == null || itemImage == null) return;
-
+            itemImage.gameObject.SetActive(true);
             itemImage.sprite = _item.itemIcon;
-
             // Adjust the size of the image to cover multiple slots
-            itemImage.rectTransform.sizeDelta = new Vector2(_item.width * cellSize*0.75f, _item.height * cellSize*0.75f);
+            // itemImage.rectTransform.sizeDelta =
+            //     new Vector2(_item.width * cellSize * 0.75f, _item.height * cellSize * 0.75f);
 
             itemImage.color = normalColor;
             isEnabled = true;
@@ -74,6 +76,7 @@ namespace _Scripts.Inventory_System.Base
         {
             isEnabled = false;
             isOccupied = false;
+            itemImage.gameObject.SetActive(false);
             if (itemImage == null) return;
             itemImage.color = _disabledColor;
         }

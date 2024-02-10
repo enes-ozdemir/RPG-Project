@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Button text="+" display-tooltip-when-elided="true" name="AddStatButton" enable-rich-text="false" style="left: auto; flex-direction: row; position: absolute; bottom: -22px; right: -5px; align-items: auto; -unity-font-style: bold; color: rgb(255, 255, 255); -unity-background-image-tint-color: rgb(255, 0, 0); background-color: rgb(255, 93, 93);" />
+</ui:UXML>

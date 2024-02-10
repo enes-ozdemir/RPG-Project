@@ -25,7 +25,7 @@ namespace _Scripts.Inventory_System.Base
 
         private void InitializeInventory()
         {
-            SetCellSize();
+       //     SetCellSize();
             
             CreateInventorySlots();
             CreateCells();
@@ -57,11 +57,11 @@ namespace _Scripts.Inventory_System.Base
             }
         }
 
-        private void SetCellSize()
-        {
-            gridLayout.cellSize = new Vector2(50, 50);
-            cellLayout.cellSize = new Vector2(50, 50);
-        }
+        // private void SetCellSize()
+        // {
+        //     gridLayout.cellSize = new Vector2(50, 50);
+        //     cellLayout.cellSize = new Vector2(50, 50);
+        // }
 
         private void AddEventsForInventorySlots(PlayerItemSlot slot)
         {

@@ -1,6 +1,10 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="AdditionalStat">
-        <ui:DropdownField label="Additional Stat" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="DropdownField" />
-        <ui:SliderInt picking-mode="Ignore" label="Value" value="42" high-value="100" show-input-field="true" />
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UIToolkit/item_creator.uss?fileID=7433441132597879392&amp;guid=dc76f54b0c2ba9a4ebbcd665f999248f&amp;type=3#item_creator" />
+    <ui:VisualElement style="flex-direction: row; flex-wrap: nowrap;">
+        <ui:Button text="-" display-tooltip-when-elided="true" name="RemoveStatButton" enable-rich-text="false" style="left: 0; flex-direction: row; position: relative; bottom: auto; right: 3px; align-items: auto; -unity-font-style: bold; color: rgb(255, 255, 255); -unity-background-image-tint-color: rgb(255, 0, 0); background-color: rgb(255, 93, 93); font-size: 20px; justify-content: flex-start; max-height: 20px; margin-top: 0; margin-bottom: 0; min-height: 10px; opacity: 0.72; flex-wrap: nowrap; -unity-text-align: middle-center; white-space: nowrap; top: 7px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; margin-left: 0; margin-right: 0;" />
+        <ui:VisualElement name="AdditionalStat" style="flex-grow: 1;">
+            <ui:DropdownField label="Stat" index="1" name="Stat" />
+            <ui:SliderInt picking-mode="Ignore" label="Value" value="10" high-value="100" show-input-field="true" name="Value" low-value="1" inverted="false" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

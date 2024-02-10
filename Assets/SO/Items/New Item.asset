@@ -21,6 +21,6 @@ MonoBehaviour:
   itemType: 1
   maximumStacks: 1
   itemID: 0
-  width: 2
-  height: 2
+  width: 1
+  height: 1
   id: 482630880a9cd954e9358d7a8fa308e7

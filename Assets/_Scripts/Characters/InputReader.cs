@@ -1,5 +1,4 @@
 ﻿using System;
-using JohnStairs.RCC.Character.MMO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +9,6 @@ namespace _Scripts.Characters
         private Controls _controls;
         public Action DodgeEvent;
         public Action AttackEvent;
-        [SerializeField] private RPGMotorMMO rpgMotor;
 
         private void Start()
         {

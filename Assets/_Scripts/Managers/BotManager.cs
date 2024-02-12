@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using _Scripts.Controllers;
 using _Scripts.SO;
 using _Scripts.UI;
-using Enca.Debug;
 using Enca.Extensions;
-using UnityEditor;
 using UnityEngine;
 
 namespace _Scripts.Managers

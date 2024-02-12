@@ -1,8 +1,4 @@
 ﻿using System;
-using _Scripts.Utils;
-using Enca.Debug;
-using Enca.Extensions;
-using Random = Enca.Extensions.Random;
 
 namespace _Scripts.Data
 {

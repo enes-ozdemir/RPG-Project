@@ -7,8 +7,8 @@ namespace _Scripts.Utils
     {
         private static string[] RpgNames = new string[]
         {
-            "Enca","Caen","Numunik","selmanbaba67","SirAiakos","ilkerix","Requashe","Emirhan","SAUVEUR"
-            //"mamitsli","benholmes","Sauron666","Phantaso"
+            "Enca","Caen","Numunik","selmanbaba67","SirAiakos","ilkerix","Requashe","Emirhan","SAUVEUR",
+            "mamitsli","benholmes","Sauron666","Phantaso"
         };
 
         public static string GetRandomRpgName()

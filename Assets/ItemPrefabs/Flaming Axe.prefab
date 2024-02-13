@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 114887345159916104}
   - component: {fileID: 6762238928665790036}
   m_Layer: 30
-  m_Name: Sword 1
+  m_Name: Flaming Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -446,7 +446,7 @@ MonoBehaviour:
   OnReleaseFreeHand:
     m_PersistentCalls:
       m_Calls: []
-  Editor_Tabs1: 0
+  Editor_Tabs1: 1
   Editor_Tabs2: 4
   meleeTrigger: {fileID: 1054929852354334767}
   ignoreStaticObjects: 1

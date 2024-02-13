@@ -789,7 +789,7 @@ PlayerSettings:
     Nintendo Switch: GAMEMODULES
     PS4: GAMEMODULES
     Stadia: GAMEMODULES
-    Standalone: GAMEMODULES;Breeze_Behaviour
+    Standalone: GAMEMODULES;Breeze_Behaviour;ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1
     WebGL: GAMEMODULES
     Windows Store Apps: GAMEMODULES
     XboxOne: GAMEMODULES

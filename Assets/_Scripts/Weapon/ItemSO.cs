@@ -5,7 +5,7 @@ namespace _Scripts.Weapon
     [CreateAssetMenu(fileName = "New Item", menuName = "Item/Item")]
     public class ItemSO : ScriptableObject
     {
-        public string weaponName;
+        public string itemName;
         public string minLevel;
         public string description;
     }

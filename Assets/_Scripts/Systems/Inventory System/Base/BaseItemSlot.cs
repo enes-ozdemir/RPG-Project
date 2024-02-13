@@ -43,7 +43,6 @@ namespace _Scripts.Inventory_System.Base
             }
         }
 
-
         public bool IsContain(Item item)
         {
             return this._item == item;
@@ -70,7 +69,6 @@ namespace _Scripts.Inventory_System.Base
             isEnabled = true;
             isOccupied = true;
         }
-
 
         public void DisableSlot()
         {

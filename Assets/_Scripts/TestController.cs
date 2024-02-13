@@ -1,3 +1,4 @@
+using _Scripts.Weapon;
 using MalbersAnimations;
 using MalbersAnimations.Controller;
 using UnityEngine;
@@ -6,7 +7,7 @@ public class TestController : MonoBehaviour
 {
     private MAnimal _animalController;
     private MInventory _inv;
-    [SerializeField] private GameObject _weapon;
+    [SerializeField] private WeaponSO _weapon;
 
     private void Awake()
     {
@@ -18,8 +19,8 @@ public class TestController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.U))
         {
-            _inv.AddItem(_weapon.gameObject);
-            _inv.EquipItem(0);
+            _inv.AddItem(_weapon.weaponPrefab.gameObject);
+            _inv.EquipItem(_inv.Inventory.Count-1);
         }
     }
 }

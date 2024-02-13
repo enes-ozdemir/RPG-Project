@@ -10,18 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c93921a5c16c45fe995f8d3463352e31, type: 3}
-  m_Name: Basic Sword
+  m_Name: Melee
   m_EditorClassIdentifier: 
-  itemName: Basic Sword
-  minLevel: 1
-  description: Basic as it can be.
-  upgradeLevel: 0
-  minBaseAttackDamage: 11
-  maxBaseAttackDamage: 13
-  minBaseMagicalDamage: 10
-  maxBaseMagicalDamage: 12
-  attackSpeed: 0.2
-  weaponPrefab: {fileID: 1000012785853844, guid: 1327855ee7a86c340a622aa8b73df98c,
-    type: 3}
-  width: 1
-  height: 2
+  weaponName: 
+  minLevel: 
+  description: 
+  MWeapon: {fileID: 0}

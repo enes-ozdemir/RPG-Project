@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using _Scripts.Inventory_System.Base;
 using UnityEngine;
 
 namespace _Scripts.Inventory_System.Tooltip
@@ -9,7 +8,7 @@ namespace _Scripts.Inventory_System.Tooltip
         [SerializeField] private float yOffset = -2;
         [SerializeField] private float xOffset = -2;
         [SerializeField] private List<ItemTip> itemTipList;
-        private Item _item;
+      //  private Item _item;
         private Vector2 _rectSize;
         private RectTransform _rectTransform;
         
@@ -45,13 +44,13 @@ namespace _Scripts.Inventory_System.Tooltip
             }
         }
 
-        public void ShowTooltip(Item item)
-        {
-            gameObject.SetActive(true);
-            var itemInfoAsList = item.GetItemInfoAsList();
-            SetItemInfo(itemInfoAsList);
-            UpdateTooltipPosition();
-        }
+        // public void ShowTooltip(Item item)
+        // {
+        //     gameObject.SetActive(true);
+        //     var itemInfoAsList = item.GetItemInfoAsList();
+        //     SetItemInfo(itemInfoAsList);
+        //     UpdateTooltipPosition();
+        // }
 
         public void HideTooltip()
         {

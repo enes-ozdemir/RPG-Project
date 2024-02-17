@@ -20,7 +20,8 @@ namespace _Scripts.Controllers
 
         #region BotBehaviour
 
-        [SerializeField] private float distanceThreshold = 2.5f;
+        private float distanceThreshold = 0.1f;
+        private static readonly int IsWalking = Animator.StringToHash("IsWalking");
 
         #endregion
 
@@ -45,20 +46,21 @@ namespace _Scripts.Controllers
 
         private void SetBotWalk(Transform cityCenter, float walkRadius)
         {
-            _agent.destination = GetRandomPointInCircle(cityCenter.position, walkRadius);
+            var destination = GetRandomPointInCircle(cityCenter.position, walkRadius);
+            _agent.destination = destination;
+            _agent.stoppingDistance = distanceThreshold;
+            AnimatorController.SetBool(IsWalking, true);
             //set rotation
             var lookPos = _agent.destination - transform.position;
             lookPos.y = 0;
             var rotation = Quaternion.LookRotation(lookPos);
             _agent.transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5f);
-            
-            AnimatorController.SetBool("IsWalking",true);
         }
 
         private void Update()
         {
             _timer += Time.deltaTime;
-            
+
             if (_timer >= _currentActionDuration)
             {
                 _currentActionDuration = GetRandomActionDuration();
@@ -67,10 +69,18 @@ namespace _Scripts.Controllers
             }
 
             if (_agent.remainingDistance < distanceThreshold)
-                AnimatorController.SetBool("IsWalking",false);
+            {
+               // Debug.Log($"Remaining distance = {_agent.remainingDistance} Distance {distanceThreshold} ");
+                //  _agent.SetDestination(transform.position);
+                AnimatorController.SetBool(IsWalking, false);
+            }
 
-            if (_agent.speed < 2)
-                AnimatorController.SetBool("IsWalking",false);
+            if (_agent.speed < 0.05f)
+            {
+               // Debug.Log($"Agent speed {_agent.speed}");
+                //  _agent.SetDestination(transform.position);
+                AnimatorController.SetBool(IsWalking, false);
+            }
         }
 
         private Vector3 GetRandomPointInCircle(Vector3 cityCenterPosition, float walkRadius)

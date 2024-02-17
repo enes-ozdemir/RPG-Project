@@ -16,10 +16,6 @@ namespace _Scripts.Weapon
         
         public GameObject weaponPrefab;
         
-        [Header("Inventory properties")]
-        public int width;
-        public int height;
-        
         public int GetMinAttackDamage() => minBaseAttackDamage + minBaseAttackDamage * upgradeLevel /10;
         public int GetMaxAttackDamage() => maxBaseAttackDamage + maxBaseAttackDamage * upgradeLevel /10;
         public int GetMinMagicalDamage() => minBaseMagicalDamage + minBaseMagicalDamage * upgradeLevel /10;

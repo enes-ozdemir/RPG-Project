@@ -12,6 +12,7 @@ TagManager:
   - Collide
   - Animal
   - Water
+  - AI
   layers:
   - Default
   - TransparentFX
@@ -44,7 +45,7 @@ TagManager:
   - 
   - 
   - Item
-  - 
+  - AI
   m_SortingLayers:
   - name: Default
     uniqueID: 0

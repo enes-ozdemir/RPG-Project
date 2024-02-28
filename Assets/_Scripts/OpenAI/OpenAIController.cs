@@ -18,7 +18,7 @@ namespace _Scripts
         [SerializeField] private TMP_InputField field;
 
         private const string
-            APIKey = "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"; //todo this will be private in the future
+            APIKey = "";
 
         #region Prompts
 

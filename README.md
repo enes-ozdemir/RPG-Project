@@ -6,6 +6,8 @@ This is a 3D RPG game with low-poly graphics, where players can set out on quest
 * AI integration for combat
 * NPC System
 
+Note: This project uses my utility plugin https://github.com/enes-ozdemir/Enca-Unity-Plugins
+
 ### Screenshots 
 ![image](https://github.com/enes-ozdemir/RPG-Project/assets/41696219/6c9376a6-2a0c-4043-8098-a383a80e8d2c)
 ![image](https://github.com/enes-ozdemir/RPG-Project/assets/41696219/4c3b3434-83a9-4637-84eb-88cd517dc638)
